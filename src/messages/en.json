@@ -1,0 +1,18 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "offers": "Offers",
+    "contact": "Contact"
+  },
+  "Home": {
+    "hero_title": "Fresh from our farms to your table",
+    "hero_subtitle": "Premium agricultural products grown with care and dedication in India.",
+    "cta_products": "Explore Products",
+    "cta_contact": "Contact Us",
+    "stats_years": "Years in Business",
+    "stats_products": "Premium Products",
+    "stats_cities": "Cities Served"
+  }
+}
