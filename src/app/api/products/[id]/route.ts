@@ -55,6 +55,26 @@ export async function PATCH(
     const { id } = await props.params;
     const updates = await req.json();
 
+    // 1. If price is in updates, log the change
+    if (updates.price !== undefined) {
+        const { data: currentProduct } = await supabaseAdmin
+            .from('products')
+            .select('price')
+            .eq('id', id)
+            .single();
+        
+        if (currentProduct && currentProduct.price !== updates.price) {
+            await supabaseAdmin.from('analytics_events').insert({
+                event_type: 'price_change',
+                product_id: id,
+                metadata: {
+                    old_price: currentProduct.price,
+                    new_price: updates.price
+                }
+            });
+        }
+    }
+
     const { error } = await supabaseAdmin
       .from('products')
       .update(updates)

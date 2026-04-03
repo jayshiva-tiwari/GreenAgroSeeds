@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { LineChart, Activity, ShoppingBag, Eye, MousePointerClick } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { 
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
+} from 'recharts';
 
 export default function DashboardOverview() {
   const [stats, setStats] = useState({
@@ -15,6 +18,7 @@ export default function DashboardOverview() {
     whatsapp: 0,
     waGrowth: 0
   });
+  const [analytics, setAnalytics] = useState<any>(null);
   const [recentInquiries, setRecentInquiries] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,6 +59,13 @@ export default function DashboardOverview() {
         });
 
         if (inquiries) setRecentInquiries(inquiries);
+
+        // 5. Fetch Analytics for Chart
+        const analyticsRes = await fetch('/api/analytics?range=30');
+        if (analyticsRes.ok) {
+           const analyticsData = await analyticsRes.json();
+           setAnalytics(analyticsData);
+        }
       } catch (err) {
         console.error('Failed to fetch dashboard data:', err);
       } finally {
@@ -143,26 +154,38 @@ export default function DashboardOverview() {
       {/* Charts / Activity Space */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4">
         {/* Main Chart area */}
-        <Card className="lg:col-span-2 shadow-sm">
-          <CardHeader>
-            <CardTitle>Website Traffic & Inquiries</CardTitle>
-            <CardDescription>Daily metrics over the last 30 days</CardDescription>
+        <Card className="lg:col-span-2 shadow-sm border-none bg-white">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Website Traffic & Inquiries</CardTitle>
+              <CardDescription>Daily metrics over the last 30 days</CardDescription>
+            </div>
           </CardHeader>
-          <CardContent className="h-[300px] flex items-center justify-center bg-slate-50/50 rounded-md border border-dashed m-6 mt-0 relative overflow-hidden">
-             {/* Chart Visualization */}
-             <div className="absolute inset-x-8 bottom-8 flex items-end justify-between gap-2 h-3/4 opacity-80">
-                {[45, 65, 40, 85, 55, 95, 115, 80, 125, 105, 145, 125, 165].map((h, i) => (
-                   <div 
-                    key={i} 
-                    className="w-full bg-earthGreen/40 rounded-t-sm transition-all hover:bg-earthGreen cursor-pointer" 
-                    style={{ height: `${(h/165)*100}%` }} 
-                   />
-                ))}
-             </div>
-             <div className="z-10 flex flex-col items-center">
-               <LineChart className="w-8 h-8 text-earthGreen/30 mb-2" />
-               <span className="text-xs text-slate-400 font-medium tracking-tight">REAL-TIME TRAFFIC ACTIVE</span>
-             </div>
+          <CardContent className="h-[300px] p-0 pb-6 pr-6">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={analytics?.daily_stats || []} margin={{ top: 20, right: 30, left: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorVisitsDash" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#1A4D2E" stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor="#1A4D2E" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis dataKey="date" hide />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11}} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="visits" 
+                  stroke="#1A4D2E" 
+                  strokeWidth={3} 
+                  fillOpacity={1} 
+                  fill="url(#colorVisitsDash)" 
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
 
@@ -184,8 +207,8 @@ export default function DashboardOverview() {
                     </div>
                   </div>
                 ))
-              ) : recentInquiries.length > 0 ? (
-                recentInquiries.map((inquiry, i) => (
+              ) : analytics?.recent_inquiries?.length > 0 ? (
+                analytics.recent_inquiries.map((inquiry: any, i: number) => (
                   <div key={i} className="flex gap-3 text-sm pb-4 border-b last:border-0 last:pb-0 border-slate-100">
                     <div className="w-8 h-8 rounded-full bg-earthGreen/10 flex items-center justify-center text-earthGreen font-bold shrink-0">
                       {inquiry.name.charAt(0)}
@@ -193,7 +216,9 @@ export default function DashboardOverview() {
                     <div className="min-w-0">
                       <h4 className="font-medium text-slate-900">{inquiry.name}</h4>
                       <p className="text-slate-500 truncate mt-0.5">{inquiry.message}</p>
-                      <span className="text-xs text-slate-400 mt-1 block">{formatTime(inquiry.created_at)}</span>
+                      <span className="text-xs text-slate-400 mt-1 block tracking-tight font-medium">
+                        {formatTime(inquiry.created_at)}
+                      </span>
                     </div>
                   </div>
                 ))

@@ -10,6 +10,8 @@ import { MessageCircle, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CldImage } from 'next-cloudinary';
 
+import { trackEvent } from '@/lib/analytics';
+
 export default function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const locale = useLocale();
   const t = useTranslations('Navigation');
@@ -25,6 +27,26 @@ export default function ProductCard({ product, priority = false }: { product: Pr
 
   const encodedMessage = encodeURIComponent(`Hi, I'm interested in ${name}. Please share more details.`);
   const waUrl = `https://wa.me/+919879836499?text=${encodedMessage}`;
+
+  const handleWhatsAppClick = () => {
+    trackEvent('whatsapp_click', product.id, { 
+      product_name: name,
+      location: 'product_card'
+    });
+  };
+
+  const handleDetailsClick = () => {
+    trackEvent('product_view', product.id, {
+      product_name: name,
+      location: 'product_card_details'
+    });
+    if (product.has_offer) {
+        trackEvent('offer_click', product.id, {
+            product_name: name,
+            location: 'product_card_offer'
+        });
+    }
+  };
 
   return (
     <div className="group flex flex-col bg-white rounded-[20px] p-2.5 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden h-full">
@@ -82,6 +104,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
         <div className="flex gap-2 mt-auto">
           <Link
             href={`/products/${product.slug}`}
+            onClick={handleDetailsClick}
             className="flex-1 rounded-full bg-[#F5F5F5] text-gray-900 font-bold text-center py-2 md:py-2.5 text-[10px] md:text-[11px] transition-all hover:bg-gray-200 active:scale-95 flex items-center justify-center whitespace-nowrap px-1"
           >
             Details
@@ -90,6 +113,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={handleWhatsAppClick}
             className="group/wa flex-[0.6] sm:flex-1 rounded-full bg-white border border-[#25D366] text-[#1A2B1C] font-bold text-center py-2 md:py-2.5 text-[10px] md:text-[11px] transition-all hover:bg-[#25D366] hover:text-white active:scale-95 flex items-center justify-center gap-1.5 px-2 md:px-3 min-w-[40px]"
           >
             <MessageCircle className="w-4 h-4 text-[#25D366] group-hover/wa:text-white transition-colors" />

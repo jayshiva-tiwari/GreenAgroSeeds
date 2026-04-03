@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import { Link } from '@/i18n/routing';
 import { unstable_noStore as noStore } from 'next/cache';
+import TrackedLink from '@/components/analytics/TrackedLink';
 
 export interface PromoBannerRow {
   id: string;
@@ -120,23 +121,17 @@ export default async function PromoBanner() {
           }
         `}} />
 
-        {banner.button_link.startsWith('http') ? (
-          <a
-            href={banner.button_link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="promo-btn"
-          >
-            {banner.button_text}
-          </a>
-        ) : (
-          <Link
-            href={banner.button_link as any}
-            className="promo-btn"
-          >
-            {banner.button_text}
-          </Link>
-        )}
+        <TrackedLink
+          href={banner.button_link}
+          eventType="offer_click"
+          metadata={{ 
+            banner_id: banner.id, 
+            banner_heading: banner.heading 
+          }}
+          className="promo-btn"
+        >
+          {banner.button_text}
+        </TrackedLink>
       </div>
     </section>
   );
