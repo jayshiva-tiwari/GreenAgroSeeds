@@ -79,17 +79,17 @@ export default function ProductTable({ initialProducts }: ProductTableProps) {
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
       {/* Page Header & Stats Overview */}
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-1">
-            <div className="flex items-center gap-3 text-earthGreen mb-2">
+      <div className="flex flex-col gap-6 md:gap-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3 text-earthGreen mb-1">
                <div className="p-2 bg-earthGreen/10 rounded-lg">
-                  <ShoppingBag className="w-6 h-6" />
+                  <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" />
                </div>
-               <span className="text-sm font-bold uppercase tracking-wider opacity-70">Catalog Management</span>
+               <span className="text-xs md:text-sm font-bold uppercase tracking-wider opacity-70">Catalog Management</span>
             </div>
-            <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Products</h1>
-            <p className="text-slate-500 text-lg">Manage your inventory, pricing, and promotional offers.</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Products Catalog</h1>
+            <p className="text-slate-500 text-base md:text-lg max-w-2xl">Manage your inventory, pricing, and promotional offers from a central dashboard.</p>
           </div>
           
           <Dialog open={isDialogOpen} onOpenChange={(open) => {
@@ -100,35 +100,37 @@ export default function ProductTable({ initialProducts }: ProductTableProps) {
               render={
                 <Button 
                   onClick={() => setIsDialogOpen(true)} 
-                  className="bg-earthGreen hover:bg-lightGreen text-white h-14 px-8 font-bold shadow-[0_10px_20px_rgba(59,109,17,0.2)] hover:shadow-[0_15px_25px_rgba(59,109,17,0.3)] transition-all hover:-translate-y-0.5 active:translate-y-0 rounded-xl flex items-center gap-3 w-full sm:w-auto"
+                  className="bg-earthGreen hover:bg-lightGreen text-white h-12 md:h-14 px-6 md:px-8 font-bold shadow-lg shadow-earthGreen/20 hover:shadow-xl hover:shadow-earthGreen/30 transition-all hover:-translate-y-0.5 active:translate-y-0 rounded-xl flex items-center justify-center gap-3 w-full lg:w-auto"
                 >
-                  <Plus className="w-6 h-6" />
-                  <span className="text-lg">Add New Product</span>
+                  <Plus className="w-5 h-5 md:w-6 md:h-6" />
+                  <span className="text-base md:text-lg">Add New Product</span>
                 </Button>
               }
             >
             </DialogTrigger>
-            <DialogContent className="max-w-4xl w-[95vw] h-[85vh] p-0 flex flex-col shadow-[0_25px_50px_rgba(0,0,0,0.3)] bg-card border-none overflow-hidden rounded-2xl">
-              <div className="p-6 md:px-10 md:py-8 border-b bg-white flex-shrink-0">
+            <DialogContent className="max-w-4xl w-[98vw] sm:w-[95vw] h-[90vh] md:h-[85vh] p-0 flex flex-col shadow-2xl bg-card border-none overflow-hidden rounded-2xl">
+              <div className="p-5 md:px-10 md:py-8 border-b bg-white flex-shrink-0">
                 <div className="space-y-1">
-                  <DialogTitle className="text-2xl font-black text-slate-900 tracking-tight leading-none">
+                  <DialogTitle className="text-xl md:text-2xl font-black text-slate-900 tracking-tight leading-none">
                     {editingProduct ? 'Edit Product' : 'Add New Product'}
                   </DialogTitle>
-                  <DialogDescription className="text-slate-500 font-medium pt-1">
+                  <DialogDescription className="text-slate-500 font-medium pt-1 text-sm md:text-base">
                     {editingProduct ? 'Carefully review and update your catalog details.' : 'Introduce your latest farm-fresh offering to customers.'}
                   </DialogDescription>
                 </div>
               </div>
-              <ProductForm 
-                initialData={editingProduct || undefined} 
-                onSuccess={onFormSuccess} 
-              />
+              <div className="flex-1 overflow-auto">
+                <ProductForm 
+                  initialData={editingProduct || undefined} 
+                  onSuccess={onFormSuccess} 
+                />
+              </div>
             </DialogContent>
           </Dialog>
         </div>
 
         {/* Quick Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
            {[
              { label: 'Total Products', value: stats.total, icon: ShoppingBag, color: 'text-blue-600', bg: 'bg-blue-50' },
              { label: 'Active Listings', value: stats.active, icon: CheckCircle2, color: 'text-earthGreen', bg: 'bg-green-50' },

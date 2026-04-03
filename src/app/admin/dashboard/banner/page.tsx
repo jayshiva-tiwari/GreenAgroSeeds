@@ -125,20 +125,20 @@ export default function BannerAdminPage() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-full overflow-hidden bg-gray-50/50">
+    <div className="flex flex-col lg:flex-row lg:h-full lg:overflow-hidden bg-gray-50/50 -m-4 md:-m-8">
       {/* Toast Notification */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 text-white font-medium transition-all ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-500'}`}>
+        <div className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-xl shadow-lg flex items-center gap-2 text-white font-medium transition-all ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-500'}`}>
           {toast.type === 'success' && <CheckCircleIcon className="h-5 w-5" />}
           {toast.message}
         </div>
       )}
 
       {/* LEFT: Editor Form (45%) */}
-      <div className="w-full md:w-[45%] h-full overflow-y-auto border-r border-slate-200 bg-white p-6 md:p-8 shrink-0">
-        <div className="mb-8">
-          <h2 className="text-[18px] font-medium font-dm-sans text-slate-900">Banner Editor</h2>
-          <p className="text-[13px] text-slate-500 font-dm-sans mt-1">Changes preview instantly. Click Save to go live.</p>
+      <div className="w-full lg:w-[45%] h-full overflow-y-auto border-b lg:border-b-0 lg:border-r border-slate-200 bg-white p-6 md:p-8 shrink-0">
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Banner Editor</h2>
+          <p className="text-sm text-slate-500 mt-1">Changes preview instantly. Click Save to go live.</p>
         </div>
 
         <div className="space-y-6">
@@ -303,9 +303,9 @@ export default function BannerAdminPage() {
       </div>
 
       {/* RIGHT: Live Preview (55%) */}
-      <div className="w-full md:w-[55%] h-full bg-slate-100 p-6 md:p-8 overflow-y-auto flex flex-col items-center shrink-0">
+      <div className="w-full lg:w-[55%] h-full bg-slate-50 p-6 md:p-8 lg:overflow-y-auto flex flex-col items-center shrink-0">
         <div className="w-full max-w-[800px]">
-          <h3 className="text-sm font-medium text-slate-400 mb-4 tracking-wide uppercase text-center md:text-left">Live Preview</h3>
+          <h3 className="text-sm font-bold text-slate-400 mb-4 tracking-widest uppercase text-center lg:text-left">Live Preview</h3>
           
           <div className="w-full rounded-[12px] border border-slate-300 shadow-xl overflow-hidden bg-white">
             {formData.is_active ? (
