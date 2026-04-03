@@ -8,7 +8,17 @@ const gujarati = Noto_Sans_Gujarati({ subsets: ['gujarati'], weight: ['400', '70
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard | Green Seeds Agro',
-  description: 'Manage products and view analytics'
+  description: 'Manage products and view analytics',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/icon.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+  },
 };
 
 export default function AdminRootLayout({
