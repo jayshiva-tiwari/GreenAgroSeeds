@@ -29,7 +29,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
   const waUrl = `https://wa.me/+919879836499?text=${encodedMessage}`;
 
   const handleWhatsAppClick = () => {
-    trackEvent('whatsapp_click', product.id, { 
+    trackEvent('whatsapp_click', product.id, {
       product_name: name,
       location: 'product_card'
     });
@@ -41,17 +41,17 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       location: 'product_card_details'
     });
     if (product.has_offer) {
-        trackEvent('offer_click', product.id, {
-            product_name: name,
-            location: 'product_card_offer'
-        });
+      trackEvent('offer_click', product.id, {
+        product_name: name,
+        location: 'product_card_offer'
+      });
     }
   };
 
   return (
-    <div className="group flex flex-col bg-white rounded-[20px] p-2.5 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden h-full">
+    <div className="group flex flex-col bg-white rounded-[10px] p-2.5 shadow-sm transition-all duration-300 border border-gray-100 overflow-hidden h-full">
       {/* Image Container (Gray Box) */}
-      <div className="relative w-full aspect-[4/3] bg-[#F3F3F3] rounded-[14px] overflow-hidden mb-3">
+      <div className="relative w-full aspect-[4/3] bg-[#F3F3F3] rounded-[10px] overflow-hidden mb-3">
         {product.has_offer && product.offer_label && (
           <div className="absolute top-2.5 left-2.5 z-10">
             <Badge className="bg-red-500 rounded-full hover:bg-red-600 text-white border-none px-2.5 py-0.5 text-[9px] font-bold shadow-sm">
@@ -105,7 +105,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           <Link
             href={`/products/${product.slug}`}
             onClick={handleDetailsClick}
-            className="flex-1 rounded-full bg-[#F5F5F5] text-gray-900 font-bold text-center py-2 md:py-2.5 text-[10px] md:text-[11px] transition-all hover:bg-gray-200 active:scale-95 flex items-center justify-center whitespace-nowrap px-1"
+            className="flex-1 rounded-lg bg-[#F5F5F5] text-gray-900 font-bold text-center py-2 md:py-2.5 text-[10px] md:text-[11px] transition-all hover:bg-gray-200 active:scale-95 flex items-center justify-center whitespace-nowrap px-1"
           >
             Details
           </Link>
@@ -114,7 +114,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             target="_blank"
             rel="noopener noreferrer"
             onClick={handleWhatsAppClick}
-            className="group/wa flex-[0.6] sm:flex-1 rounded-full bg-white border border-[#25D366] text-[#1A2B1C] font-bold text-center py-2 md:py-2.5 text-[10px] md:text-[11px] transition-all hover:bg-[#25D366] hover:text-white active:scale-95 flex items-center justify-center gap-1.5 px-2 md:px-3 min-w-[40px]"
+            className="group/wa flex-[0.6] sm:flex-1 rounded-lg bg-white border border-[#25D366] text-[#1A2B1C] font-bold text-center py-2 md:py-2.5 text-[10px] md:text-[11px] transition-all hover:bg-[#25D366] hover:text-white active:scale-95 flex items-center justify-center gap-1.5 px-2 md:px-3 min-w-[40px]"
           >
             <MessageCircle className="w-4 h-4 text-[#25D366] group-hover/wa:text-white transition-colors" />
             <span className="hidden sm:inline whitespace-nowrap">Chat on WhatsApp</span>

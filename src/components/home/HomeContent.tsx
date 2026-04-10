@@ -8,6 +8,7 @@ import { Link } from '@/i18n/routing';
 import { ShieldCheck, Leaf, Truck, Users, ArrowRight, Twitter, Linkedin, Github, Mail } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import Testimonials from '@/components/sections/Testimonials';
 
 interface HomeContentProps {
   products: Product[];
@@ -258,6 +259,9 @@ export default function HomeContent({ products, offers, translations, promoBanne
           </div>
         </div>
       </section>
+
+      {/* 5.5. TESTIMONIALS */}
+      <Testimonials limit={5} />
 
       {/* 6. LEADERSHIP TEAM SECTION */}
       {/* <section className="w-full overflow-hidden text-[#424851]">

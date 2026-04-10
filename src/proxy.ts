@@ -6,7 +6,7 @@ import type { NextRequest } from 'next/server';
 const intlMiddleware = createMiddleware(routing);
 
 /**
- * Standard Next.js Middleware (now Proxy)
+ * Standard Next.js 16 Proxy (formerly Middleware)
  * Handles internationalization and admin route bypassing.
  */
 export async function proxy(req: NextRequest) {
@@ -21,8 +21,7 @@ export async function proxy(req: NextRequest) {
   return intlMiddleware(req);
 }
 
-
 export const config = {
-  // Enhanced matcher to avoid middleware interference on static assets and admin
+  // Enhanced matcher to avoid proxy interference on static assets and admin
   matcher: ['/((?!api|_next|_vercel|admin|.*\\..*).*)']
 };

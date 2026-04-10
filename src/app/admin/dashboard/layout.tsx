@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -11,13 +11,36 @@ import {
   Settings,
   LogOut,
   Menu,
+  Star,
   X
 } from 'lucide-react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [pendingTestimonials, setPendingTestimonials] = useState(0);
   const pathname = usePathname();
+
+  useEffect(() => {
+    async function fetchPending() {
+      const { count } = await supabase
+        .from('testimonials')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_approved', false);
+      if (count !== null) setPendingTestimonials(count);
+    }
+    fetchPending();
+
+    const channel = supabase
+      .channel('testimonials_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'testimonials' }, fetchPending)
+      .subscribe();
+      
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   // Navigation sidebar items
   const navItems = [
@@ -90,6 +113,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           >
             <LayoutDashboard className={`w-5 h-5 ${isActive('/admin/dashboard/banner') ? 'text-white/80' : 'text-slate-400'}`} />
             Promo Banner
+          </Link>
+
+          <Link
+            href="/admin/dashboard/testimonials"
+            onClick={() => setIsSidebarOpen(false)}
+            className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive('/admin/dashboard/testimonials')
+                ? 'bg-earthGreen text-white shadow-md shadow-earthGreen/20'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+          >
+            <div className="flex items-center gap-3">
+              <Star className={`w-5 h-5 ${isActive('/admin/dashboard/testimonials') ? 'text-white/80' : 'text-slate-400'}`} />
+              Testimonials
+            </div>
+            {pendingTestimonials > 0 && (
+              <span className="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
+                {pendingTestimonials}
+              </span>
+            )}
           </Link>
         </nav>
 

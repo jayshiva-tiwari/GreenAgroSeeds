@@ -43,7 +43,7 @@ export default function Navbar() {
       className={cn(
         'fixed top-0 z-[100] w-full transition-all duration-500 ease-in-out',
         isScrolled || isOpen
-          ? 'py-3 bg-white shadow-lg border-b border-gray-100'
+          ? 'py-3 bg-white/10 backdrop-blur-md shadow-lg'
           : 'py-5 bg-transparent'
       )}
     >
@@ -91,7 +91,7 @@ export default function Navbar() {
         {/* Right side items */}
         <div className="flex items-center gap-4 md:gap-6">
           <div className="hidden sm:block">
-             <LanguageSwitcher />
+            <LanguageSwitcher />
           </div>
 
           <Link
@@ -150,10 +150,10 @@ export default function Navbar() {
 
             <div className="mt-auto pb-12 flex flex-col gap-6">
               <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl">
-                 <span className="font-medium text-gray-600">Select Language</span>
-                 <LanguageSwitcher />
+                <span className="font-medium text-gray-600">Select Language</span>
+                <LanguageSwitcher />
               </div>
-              
+
               <Link
                 href="/contact"
                 onClick={() => setIsOpen(false)}
