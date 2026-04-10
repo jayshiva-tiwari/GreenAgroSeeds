@@ -36,7 +36,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       .channel('testimonials_changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'testimonials' }, fetchPending)
       .subscribe();
-      
+
     return () => {
       supabase.removeChannel(channel);
     };
@@ -73,7 +73,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200 bg-earthGreen/5">
-          <span className="text-xl font-bold text-earthGreen">Green Seeds Agro Admin</span>
+          <span className="text-xl font-bold text-earthGreen">Green Admin</span>
           <button
             className="lg:hidden p-2 -mr-2 text-slate-500 hover:text-slate-900"
             onClick={() => setIsSidebarOpen(false)}
@@ -92,8 +92,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={item.href}
                 onClick={() => setIsSidebarOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active
-                    ? 'bg-earthGreen text-white shadow-md shadow-earthGreen/20'
-                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                  ? 'bg-earthGreen text-white shadow-md shadow-earthGreen/20'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                   }`}
               >
                 <item.icon className={`w-5 h-5 ${active ? 'text-white/80' : 'text-slate-400'}`} />
@@ -107,8 +107,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             href="/admin/dashboard/banner"
             onClick={() => setIsSidebarOpen(false)}
             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive('/admin/dashboard/banner')
-                ? 'bg-earthGreen text-white shadow-md shadow-earthGreen/20'
-                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+              ? 'bg-earthGreen text-white shadow-md shadow-earthGreen/20'
+              : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
               }`}
           >
             <LayoutDashboard className={`w-5 h-5 ${isActive('/admin/dashboard/banner') ? 'text-white/80' : 'text-slate-400'}`} />
@@ -119,8 +119,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             href="/admin/dashboard/testimonials"
             onClick={() => setIsSidebarOpen(false)}
             className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive('/admin/dashboard/testimonials')
-                ? 'bg-earthGreen text-white shadow-md shadow-earthGreen/20'
-                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+              ? 'bg-earthGreen text-white shadow-md shadow-earthGreen/20'
+              : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
               }`}
           >
             <div className="flex items-center gap-3">
